@@ -12,6 +12,12 @@ const PORT = process.env.PORT || 3000;
 app.use(volleyball);
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true}));
+
+app.use(function(req,res,next) {
+ console.log('Logging...');
+ next();
+});
 
 app.use('/posts', post);
 

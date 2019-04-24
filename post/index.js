@@ -49,8 +49,8 @@ router.post('/', (req,res,next) => {
 });
 
 router.get('/:id', (req,res,next) => {
-  let id = parseInt(req.params.id);
-  let post = posts.find(p => p.id === id);
+  let post = posts.find(p => p.id === parseInt(req.params.id));
+  if(!post) return res.status(404).json({ message: 'Post not found', success: false, status: 404});
 
   res.status(200).json({
     message: 'Post found',
@@ -58,6 +58,43 @@ router.get('/:id', (req,res,next) => {
     post
   });
 });
+
+router.put('/:id', (req,res,next) => {
+  let id = parseInt(req.params.id);
+  let post = posts.find(p => p.id === id);
+  if(!post) return res.status(404).json({ message: 'Post not found', success: false, status: 404});
+
+  const { error } = validatePost(req.body);
+  if(error) res.status(400).json({message: error.details[0].message, status: 400});
+
+  post.title = req.body.title;
+  post.description = req.body.description;
+
+  res.status(200).json({
+    updatedPost: post,
+    message: 'Post Updated Successfully',
+    success: true,
+    status: 200
+  });
+});
+
+router.delete('/:id', (req,res,next) => {
+  //find
+  let post = posts.find(p => p.id === parseInt(req.params.id));
+  //if it is not found then send 404 not found
+  if(!post) return res.status(404).json({ message: 'Post not found', success: false, status: 404});
+
+  //delete
+  const index = posts.indexOf(post);
+  posts.splice(index,1);
+
+  res.status(200).json({
+    message: 'Post Deleted Sucessfully',
+    success: true,
+    status: 200
+  });
+});
+
 
 function validatePost(post) {
   const schema = {
