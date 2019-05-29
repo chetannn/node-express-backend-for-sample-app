@@ -14,6 +14,7 @@ exports.getAll = async (req,res) => {
 }
 
 exports.createPost = (req,res) => {
+  
    const  { error } = validatePost(req.body);
    if(error) {
      return res.status(400).json({error: error.details[0].message});

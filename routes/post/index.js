@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../../middleware/auth');
 const router = express.Router();
 const { 
   getAll,
@@ -8,9 +9,9 @@ const {
   deletePost
  } = require('../../controllers/post');
 
-router.get('/', getAll);
-router.get('/:id', getPost);
-router.post('/', createPost);
+router.get('/',auth,getAll);
+router.get('/:id',getPost);
+router.post('/',auth,createPost);
 router.put('/:id', updatePost);
 router.delete('/:id', deletePost);
 

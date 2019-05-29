@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+const error = require('./middleware/error');
 const postRoutes = require('./routes/post');
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
@@ -30,5 +31,7 @@ app.use(express.urlencoded({ extended: true}));
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/posts', postRoutes);
+//reason to put it here
+app.use(error);
 
 app.listen(PORT, () => console.log(`Listening at port ${PORT}`));

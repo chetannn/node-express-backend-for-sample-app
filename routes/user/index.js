@@ -6,4 +6,5 @@ router.get('/', getAllUsers);
 router.get('/:userId', getUserById);
 router.post('/signup', signup);
 
+
 module.exports = router;
